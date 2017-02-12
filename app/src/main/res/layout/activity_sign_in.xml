@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_sign_in"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.photoviewer.ui.activities.SignInActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="@string/sign_with_vk"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:id="@+id/text_sign"
+        android:textSize="28sp"
+        android:layout_height="wrap_content"/>
+
+    <com.photoviewer.ui.components.buttons.ProgressButton
+        android:id="@+id/sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/text_sign"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        app:text="@string/button_sign_in"/>
+
+</RelativeLayout>

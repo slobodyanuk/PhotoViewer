@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#58355B</color>
+    <color name="colorPrimaryDark">#58355B</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorText">#FFFFFF</color>
+
+    <!--response anim colors-->
+    <color name="cherry">#d12c5b</color>
+    <color name="dark_cyan">#008789</color>
+    <color name="transparent_dark_cyan">#89008789</color>
+
+    <color name="progress_gray">#FFD8D8D8</color>
+    <color name="progress_gray_dark">#FF383838</color>
+    <color name="default_blue_light">#5CF4FF</color>
+    <color name="default_blue_transparent">#4d5CF4FF</color>
+    <color name="default_violet">#32064C</color>
+</resources>
+

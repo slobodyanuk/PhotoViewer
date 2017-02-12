@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PhotoViewer</string>
+
+    <integer name="com_vk_sdk_AppId">5868987</integer>
+
+    <string name="sign_with_vk">Sign in with VK</string>
+    <string name="button_sign_in">Sign in</string>
+    <string name="button_logout">Logout</string>
+
+    <string name="fragment_albums">Albums</string>
+    <string name="fragment_photos">Album - %1$s</string>
+    <string name="fragment_preview">Preview</string>
+</resources>
