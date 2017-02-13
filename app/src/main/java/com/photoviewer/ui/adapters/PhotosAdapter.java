@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.photoviewer.R;
@@ -37,13 +36,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.GridViewHo
     @Override
     public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_album, parent, false);
+                .inflate(R.layout.item_photo, parent, false);
         return new GridViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final GridViewHolder holder, int position) {
-        holder.title.setText(mPhotos.get(position).getText());
         holder.setImage(mPhotos.get(position).getImageUrlBig());
 
         holder.root.setOnClickListener(v -> sItemListener.onItemClick(holder.image,
@@ -55,6 +53,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.GridViewHo
     public int getItemCount() {
         return mPhotos.size();
     }
+
+
 
     public void update(List<Photo> photos) {
         this.mPhotos.clear();
@@ -69,9 +69,6 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.GridViewHo
 
         @BindView(R.id.image)
         SquareView image;
-
-        @BindView(R.id.title)
-        TextView title;
 
         @BindView(R.id.progress)
         ProgressBar progressBar;

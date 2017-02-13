@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.photoviewer.R;
 import com.photoviewer.ui.components.buttons.ProgressButton;
+import com.photoviewer.utils.PrefsKeys;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import butterknife.BindView;
@@ -116,6 +118,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Prefs.remove(PrefsKeys.RECYCLER_ALBUM_POSITION);
+        Prefs.remove(PrefsKeys.RECYCLER_PHOTO_POSITION);
         mBinder.unbind();
     }
 

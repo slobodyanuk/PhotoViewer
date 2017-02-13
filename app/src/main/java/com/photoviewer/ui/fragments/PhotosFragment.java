@@ -19,6 +19,8 @@ import com.photoviewer.ui.adapters.PhotosAdapter;
 import com.photoviewer.ui.components.ItemOffsetDecoration;
 import com.photoviewer.ui.components.SquareView;
 import com.photoviewer.utils.Globals;
+import com.photoviewer.utils.PrefsKeys;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class PhotosFragment extends BaseFragment
 
     private String mAlbumTitle = "";
     private String mAlbumId = "";
+    private int mSaveRecyclerPosition;
 
     public static Fragment newInstance(String albumTitle, String albumId) {
         Bundle bundle = new Bundle();
@@ -66,6 +69,13 @@ public class PhotosFragment extends BaseFragment
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
         }
+        mSaveRecyclerPosition = Prefs.getInt(PrefsKeys.RECYCLER_PHOTO_POSITION, 0);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -100,6 +110,7 @@ public class PhotosFragment extends BaseFragment
     public void updateToolbar() {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).unableHomeButton();
+            ((BaseActivity) getActivity()).unableLogoutButton();
             ((BaseActivity) getActivity()).setToolbarTitle(getString(R.string.fragment_photos, mAlbumTitle));
         }
     }
@@ -111,10 +122,11 @@ public class PhotosFragment extends BaseFragment
 
     @Override
     public void onItemClick(SquareView image, int position, Photo photo) {
+        Prefs.putInt(PrefsKeys.RECYCLER_PHOTO_POSITION, position);
         ((BaseActivity) getActivity())
                 .replaceFragment(R.id.fragment_container,
                         PreviewImageFragment.newInstance(photo),
-                        Globals.FRAGMENT_PHOTO_PREVIEW);
+                        Globals.FRAGMENT_PHOTO_PREVIEW_TAG);
     }
 
     @Override
@@ -132,7 +144,9 @@ public class PhotosFragment extends BaseFragment
         if (mAdapter != null) {
             mAdapter.update(photos);
         }
+        mLayoutManager.scrollToPosition(mSaveRecyclerPosition);
     }
+
 
     @Override
     public void onRefresh() {

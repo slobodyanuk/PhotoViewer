@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements
-        ProgressButton.GifAnimationListener{
+        ProgressButton.GifAnimationListener {
 
     @BindView(R.id.logout)
     ProgressButton mLogoutButton;
@@ -36,19 +36,22 @@ public class MainActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState == null && Prefs.getString(PrefsKeys.ACCESS_TOKEN, "").isEmpty()) {
+        if (Prefs.getString(PrefsKeys.ACCESS_TOKEN, "").isEmpty()) {
             SignInActivity.launch(this);
-        }else {
-            mLogoutButton.setGifAnimationListener(this);
-            replaceFragment(R.id.fragment_container, AlbumsFragment.newInstance(), Globals.FRAGMENT_ALBUMS_TAG);
+        } else {
+            if (savedInstanceState == null) {
+                mLogoutButton.setGifAnimationListener(this);
+                replaceFragment(R.id.fragment_container, AlbumsFragment.newInstance(), Globals.FRAGMENT_ALBUMS_TAG);
+            }
         }
     }
 
     @OnClick(R.id.logout)
-    public void onLogout(){
+    public void onLogout() {
         mLogoutButton.collapse();
         VKSdk.logout();
         Prefs.remove(PrefsKeys.ACCESS_TOKEN);
+        Prefs.remove(PrefsKeys.TUTORIAL_ENABLED);
     }
 
     @Override

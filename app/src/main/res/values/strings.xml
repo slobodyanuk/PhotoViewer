@@ -10,4 +10,5 @@
     <string name="fragment_albums">Albums</string>
     <string name="fragment_photos">Album - %1$s</string>
     <string name="fragment_preview">Preview</string>
+    <string name="swipe">Swipe down to close</string>
 </resources>

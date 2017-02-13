@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
@@ -21,32 +22,43 @@ import com.photoviewer.data.events.LayoutEvent;
 import com.photoviewer.data.model.Photo;
 import com.photoviewer.ui.BaseActivity;
 import com.photoviewer.ui.BaseFragment;
+import com.photoviewer.utils.GlideRequestListener;
 import com.photoviewer.utils.LayoutEventListener;
+import com.photoviewer.utils.PrefsKeys;
 import com.photoviewer.utils.PreviewTouchListener;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Serhii Slobodianiuk on 12.02.2017.
  */
 
-public class PreviewImageFragment extends BaseFragment implements PreviewTouchListener.OnPreviewAnimCallback {
+public class PreviewImageFragment extends BaseFragment
+        implements PreviewTouchListener.OnPreviewAnimCallback {
 
     private static final String PARAM_PHOTO = "photo";
     private static final int ANIMATION_REVERSE_STEP = 4;
 
     @BindView(R.id.root)
-    LinearLayout mRoot;
+    RelativeLayout mRoot;
 
     @BindView(R.id.image_container)
     RelativeLayout mImageContainer;
 
     @BindView(R.id.image)
     ImageView mImageView;
+
+    @BindView(R.id.tutorial)
+    LinearLayout mTutorialView;
+
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
 
     private Photo mPhoto;
 
@@ -55,8 +67,8 @@ public class PreviewImageFragment extends BaseFragment implements PreviewTouchLi
     private Handler mHandler = new Handler();
 
     private AnimatorSet mAnimatorSet;
-    private LayoutEventListener mLayoutEventListener;
 
+    private LayoutEventListener mLayoutEventListener;
 
     public static Fragment newInstance(Photo photo) {
         Bundle bundle = new Bundle();
@@ -78,6 +90,13 @@ public class PreviewImageFragment extends BaseFragment implements PreviewTouchLi
         updateToolbar();
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -86,8 +105,18 @@ public class PreviewImageFragment extends BaseFragment implements PreviewTouchLi
             mPhoto = Parcels.unwrap(getArguments().getParcelable(PARAM_PHOTO));
         }
 
+        mTutorialView.setVisibility((Prefs.getBoolean(PrefsKeys.TUTORIAL_ENABLED, true))
+                ? View.VISIBLE
+                : View.GONE);
+
         showImage(mPhoto.getImageUrlBig());
         initAnimation();
+    }
+
+    @OnClick(R.id.tutorial)
+    public void onTutorial(){
+        mTutorialView.setVisibility(View.GONE);
+        Prefs.putBoolean(PrefsKeys.TUTORIAL_ENABLED, false);
     }
 
     private void initAnimation() {
@@ -105,6 +134,7 @@ public class PreviewImageFragment extends BaseFragment implements PreviewTouchLi
                 .error(android.R.drawable.stat_notify_error)
                 .fitCenter()
                 .dontTransform()
+                .listener(new GlideRequestListener(progressBar))
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -128,7 +158,7 @@ public class PreviewImageFragment extends BaseFragment implements PreviewTouchLi
     }
 
     @Subscribe
-    public void onEvent(LayoutEvent event){
+    public void onEvent(LayoutEvent event) {
         mAnimatorSet = event.getAnimatorSet();
     }
 

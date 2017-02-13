@@ -19,6 +19,8 @@ import com.photoviewer.ui.adapters.AlbumsAdapter;
 import com.photoviewer.ui.components.ItemOffsetDecoration;
 import com.photoviewer.ui.components.SquareView;
 import com.photoviewer.utils.Globals;
+import com.photoviewer.utils.PrefsKeys;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -44,6 +46,7 @@ public class AlbumsFragment extends BaseFragment
 
     private GridLayoutManager mLayoutManager;
     private ItemOffsetDecoration mItemDecoration;
+    private int mSavedRecyclerPosition;
 
     public static Fragment newInstance() {
         return new AlbumsFragment();
@@ -56,6 +59,14 @@ public class AlbumsFragment extends BaseFragment
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
         }
+        mSavedRecyclerPosition = Prefs.getInt(PrefsKeys.RECYCLER_ALBUM_POSITION, 0);
+        Prefs.remove(PrefsKeys.RECYCLER_PHOTO_POSITION);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -85,6 +96,7 @@ public class AlbumsFragment extends BaseFragment
     public void updateToolbar() {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).disableHomeButton();
+            ((BaseActivity) getActivity()).unableLogoutButton();
             ((BaseActivity) getActivity()).setToolbarTitle(getString(R.string.fragment_albums));
         }
     }
@@ -96,6 +108,9 @@ public class AlbumsFragment extends BaseFragment
 
     @Override
     public void onItemClick(SquareView image, int position, Album album) {
+
+        Prefs.putInt(PrefsKeys.RECYCLER_ALBUM_POSITION, position);
+
         ((BaseActivity) getActivity())
                 .replaceFragment(R.id.fragment_container,
                         PhotosFragment.newInstance(album.getTitle(), album.getAlbumId()),
@@ -117,6 +132,7 @@ public class AlbumsFragment extends BaseFragment
         if (mAdapter != null) {
             mAdapter.update(albums);
         }
+        mLayoutManager.scrollToPosition(mSavedRecyclerPosition);
     }
 
     @Override

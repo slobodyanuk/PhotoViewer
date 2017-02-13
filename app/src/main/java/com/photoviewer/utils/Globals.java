@@ -12,8 +12,7 @@ public class Globals {
 
     public static final String FRAGMENT_ALBUMS_TAG = "albums";
     public static final String FRAGMENT_PHOTO_TAG = "photo";
-    public static final String TRANSITION_PREVIEW_PARAM = "transition_param";
-    public static final String FRAGMENT_PHOTO_PREVIEW = "photo_preview";
+    public static final String FRAGMENT_PHOTO_PREVIEW_TAG = "photo_preview";
 
     public static final String[] USER_SCOPE = new String[]{
             VKScope.PHOTOS
