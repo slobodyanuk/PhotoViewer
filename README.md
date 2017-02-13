@@ -14,6 +14,9 @@ A simple photo viewer that uses tools such as
 [Glide]:https://github.com/bumptech/glide
 [ButterKnife]:http://jakewharton.github.io/butterknife/
 
+# [Demo apk]
+[Demo apk]:https://github.com/slobodyanuk/PhotoViewer/blob/master/readme/PhotoViewer-1.0.0.apk
+
 <img src="/readme/QuickMemo+_2017-02-13-15-02-47.png" width="350" height="600">
 <img src="/readme/QuickMemo+_2017-02-13-15-03-04.png" width="350" height="600">
 <img src="/readme/QuickMemo+_2017-02-13-15-03-19.png" width="350" height="600">
